@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { MapPin, Trash, Coins, Medal, Settings, Home } from 'lucide-react';
+import { MapPin, Apple, LayoutDashboard, User, Settings, Home } from 'lucide-react';
 
 const sidebarItems = [
 	{ href: '/', icon: Home, label: 'Home' },
-	{ href: '/report', icon: MapPin, label: 'Report Waste' },
-	{ href: '/collect', icon: Trash, label: 'Collect Waste' },
-	{ href: '/rewards', icon: Coins, label: 'Rewards' },
-	{ href: '/login', icon: Medal, label: 'Login' }
+	{ href: '/mealplan', icon: Apple, label: 'Meal Plan' },
+	{ href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+	{ href: '/map', icon: MapPin, label: 'Map' },
+	{ href: '/login', icon: User, label: 'Login' }
 ];
 
 interface SidebarProps {
@@ -32,8 +32,8 @@ export default function Sidebar({ open }: SidebarProps) {
 								variant={pathname === item.href ? 'secondary' : 'ghost'}
 								className={`w-full justify-start py-3 ${
 									pathname === item.href
-										? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-										: 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+										? 'bg-lime-100 dark:bg-lime-900 text-lime-800 dark:text-lime-200'
+										: 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 hover:dark:bg-gray-700'
 								}`}
 							>
 								<item.icon className="mr-3 h-5 w-5" />
@@ -48,7 +48,7 @@ export default function Sidebar({ open }: SidebarProps) {
 							variant={pathname === '/settings' ? 'secondary' : 'outline'}
 							className={`w-full py-3 ${
 								pathname === '/settings'
-									? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+									? 'bg-green-100 dark:bg-lime-900 text-lime-800 dark:text-lime-200'
 									: 'text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
 							}`}
 						>

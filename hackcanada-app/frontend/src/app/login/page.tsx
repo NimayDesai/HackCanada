@@ -1,3 +1,5 @@
+'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -95,8 +97,8 @@ export default function TabsDemo() {
 											</p>
 										)}
 									</div>
-									<Button type="submit" className="w-full">
-										Login
+									<Button type="submit" className="w-full bg-lime-700">
+										<div className="text-white">Login</div>
 									</Button>
 								</div>
 							</CardContent>
@@ -120,7 +122,7 @@ export default function TabsDemo() {
 										<Label htmlFor="email">Email</Label>
 										<Input
 											{...signupForm.register('email')}
-											placeholder="m@example.com"
+											placeholder="user@example.com"
 											type="email"
 										/>
 										{signupForm.formState.errors.email && (
@@ -141,7 +143,7 @@ export default function TabsDemo() {
 											</p>
 										)}
 									</div>
-									<Button type="submit" className="w-full">
+									<Button type="submit" className="w-full bg-lime-700">
 										Sign Up
 									</Button>
 								</div>
