@@ -46,7 +46,11 @@ interface Recipe {
   };
 }
 
-export const generate = async () => {
+export const generate = async (
+  cuisine: string,
+  protein: number,
+  restrictions: string
+) => {
   // Initialize PostgreSQL connection
   const pool = new Pool({
     host: process.env.POSTGRES_HOST || "localhost",
@@ -84,9 +88,11 @@ export const generate = async () => {
 
     // You can still run your query here
     const query =
-      "Give me a recipe for a vegetarian dish with at least 20g of protein per serving";
+      "Give me a recipe for a dish with the " + cuisine + protein
+        ? `and at least ${protein}g of protein`
+        : "" + "and must be " + restrictions;
     const relevantDocs = await vectorStore?.similaritySearch(query, 1);
-    console.log("Relevant documents:", relevantDocs);
+    console.log("Relevant documents:", relevantDocs[0].metadata);
 
     await pool.end();
     return;
@@ -101,7 +107,7 @@ export const generate = async () => {
   // Get total count of records first
   const countStream = fs
     .createReadStream(
-      "/Users/nimaydesai/HackCanada/hackcanada-app/backend/data/recipes2.csv"
+      "/Users/nimaydesai/HackCanada/hackcanada-app/backend/data/recipes.csv"
     )
     .pipe(csv.parse({ columns: true }));
 
@@ -113,7 +119,7 @@ export const generate = async () => {
 
   const parser = fs
     .createReadStream(
-      "/Users/nimaydesai/HackCanada/hackcanada-app/backend/data/recipes2.csv"
+      "/Users/nimaydesai/HackCanada/hackcanada-app/backend/data/recipes.csv"
     )
     .pipe(csv.parse({ columns: true }));
 
@@ -283,51 +289,6 @@ export const searchRecipes = async (query: string) => {
     );
 
     // Print all recipes with detailed nutritional information
-    recipes.forEach((recipe, index) => {
-      console.log(`\nRecipe ${index + 1}:`);
-      console.log(`\n${recipe.title}`);
-      console.log(`\nTotal Cost: $${recipe.totalCost.toFixed(2)}`);
-      console.log(`Cost per serving: $${recipe.costPerServing.toFixed(2)}`);
-      console.log(`Makes ${recipe.servings} servings\n`);
-
-      console.log("Ingredients:");
-      recipe.ingredients
-        .split(",")
-        .map((i) => i.trim())
-        .filter((i) => i)
-        .forEach((i) => console.log(`• ${i}`));
-
-      console.log("\nNutritional Information (per serving):");
-      console.log(`Calories: ${recipe.nutritionalInfo.calories}kcal`);
-      console.log(`Protein: ${recipe.nutritionalInfo.protein}g`);
-      console.log(`Carbohydrates: ${recipe.nutritionalInfo.carbohydrates}g`);
-      console.log(`Fat: ${recipe.nutritionalInfo.fat}g`);
-      console.log(`Sugar: ${recipe.nutritionalInfo.sugar}g`);
-      console.log(`Fiber: ${recipe.nutritionalInfo.fiber}g`);
-
-      console.log("\nVitamins:");
-      Object.entries(recipe.nutritionalInfo.vitamins).forEach(
-        ([vitamin, amount]) => {
-          console.log(`${vitamin}: ${amount}mg`);
-        }
-      );
-
-      console.log("\nMinerals:");
-      Object.entries(recipe.nutritionalInfo.minerals).forEach(
-        ([mineral, amount]) => {
-          console.log(`${mineral}: ${amount}mg`);
-        }
-      );
-
-      console.log("\nInstructions:");
-      recipe.instructions
-        .split(/\.|;/)
-        .map((i) => i.trim())
-        .filter((i) => i)
-        .map((step, index) => console.log(`${index + 1}. ${step}`));
-
-      console.log("\n" + "-".repeat(80));
-    });
 
     await pool.end();
     return recipes;

@@ -42,5 +42,3 @@ const main = async () => {
     console.log("Server is running at http://localhost:4000/graphql");
   });
 };
-
-generate();
