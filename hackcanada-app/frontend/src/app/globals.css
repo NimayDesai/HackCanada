@@ -2,11 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   :root {
-
     --background: 0 0% 100%;
 
     --foreground: 222.2 84% 4.9%;
@@ -55,11 +52,10 @@
 
     --chart-5: 27 87% 67%;
 
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   .dark {
-
-    --background: 222.2 47.4% 11.2%;
+    --background: 217 30% 17%;
 
     --foreground: 210 40% 98%;
 
@@ -105,32 +101,28 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
 
-
-
 @layer base {
-	* {
-		@apply border-border;
-	}
-	body {
-		@apply bg-background text-foreground;
-		transition-property: opacity, transform, filter, background;
-		transition-timing-function: ease-in-out;
-		transition-duration: 500ms;
-	}
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    transition-property: opacity, transform, filter, background;
+    transition-timing-function: ease-in-out;
+    transition-duration: 500ms;
+  }
 }
 
 .page-transition {
-	opacity: 0;
-	background: black;
-	transform: translateY(40px);
-	filter: blur(12px);
+  opacity: 0;
+  background: black;
+  transform: translateY(40px);
+  filter: blur(12px);
 }
-
-
 
 @layer base {
   * {

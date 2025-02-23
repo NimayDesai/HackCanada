@@ -10,8 +10,5 @@ export class User {
   email: string;
 
   @Field(() => String, { nullable: true })
-  username: string;
-
-  @Field(() => String, { nullable: true })
-  name: string;
+  name?: string;
 }
