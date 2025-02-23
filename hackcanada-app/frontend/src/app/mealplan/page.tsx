@@ -119,18 +119,12 @@ export default function Home() {
           </h1>
 
           <Tabs defaultValue="form" className="w-full">
-            <TabsList className="grid grid-cols-2 w-full">
+            <TabsList className="grid grid-cols-1 w-full">
               <TabsTrigger
                 value="form"
                 className="p-1 rounded-sm data-[state=active]:bg-gray-200 dark:data-[state=active]:bg-gray-700"
               >
-                Fill Out Form
-              </TabsTrigger>
-              <TabsTrigger
-                value="describe"
-                className="p-1 rounded-sm data-[state=active]:bg-gray-200 dark:data-[state=active]:bg-gray-700"
-              >
-                Describe Goals
+                Fill Out The Form
               </TabsTrigger>
             </TabsList>
 
