@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 import Sidebar from "@/components/Sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -25,7 +26,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [loggedIn, setLoggedIn] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -44,13 +44,21 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header onMenuClick={handleMenuClick} />
-          <div className="flex flex-1">
-            <Sidebar open={sidebarOpen} />
-            <main className="flex-1 p-4 lg:p-8 ml-0 lg:ml-64 transition-all duration-300 pt-16">
-              <ApolloWrapper>{children}</ApolloWrapper>
-            </main>
-          </div>
+          <ApolloWrapper>
+            <Header onMenuClick={handleMenuClick} />
+            <div className="flex flex-1">
+              <Sidebar open={sidebarOpen} />
+              <main className="flex-1 p-4 lg:p-8 ml-0 lg:ml-64 transition-all duration-300 pt-16">
+                <Toaster
+                  position="bottom-right"
+                  toastOptions={{
+                    style: { color: "white", background: "black" },
+                  }}
+                />
+                {children}
+              </main>
+            </div>
+          </ApolloWrapper>
         </ThemeProvider>
       </body>
     </html>

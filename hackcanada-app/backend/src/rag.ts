@@ -10,7 +10,7 @@ export const generate = async (
   cuisine: string,
   protein: number,
   restrictions: string
-) => {
+): Promise<any> => {
   // Initialize PostgreSQL connection
   const pool = new Pool({
     host: process.env.POSTGRES_HOST || "localhost",
@@ -46,16 +46,16 @@ export const generate = async (
       `Found ${existingCount.rows[0].count} existing documents. Skipping processing.`
     );
 
-    // You can still run your query here
-    const query =
-      "Give me a recipe for a dish with the " + cuisine + protein
-        ? `and at least ${protein}g of protein`
-        : "" + "and must be " + restrictions;
-    const relevantDocs = await vectorStore?.similaritySearch(query, 1);
-    console.log("Relevant documents:", relevantDocs[0].metadata);
+    const query = `Give me a recipe for a dish with ${cuisine} ${
+      protein ? `and at least ${protein}g of protein` : ""
+    } ${restrictions ? `and must be ${restrictions}` : ""}`.trim();
 
-    await pool.end();
-    return;
+    const relevantDocs = await vectorStore?.similaritySearch(query, 1);
+
+    return {
+      recipe: relevantDocs?.[0]?.pageContent,
+      metadata: relevantDocs?.[0]?.metadata,
+    };
   }
 
   // If no existing documents, proceed with processing

@@ -14,11 +14,23 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   name     String
   /// @TypeGraphQL.omit(output: false)
   password String
-  height   Int    @default(176)
-  weight   Int    @default(75)
+  height   Int      @default(176)
+  weight   Int      @default(75)
+  recipes  Recipe[]
+}
+
+model Recipe {
+  id           Int      @id @default(autoincrement())
+  name         String
+  ingredients  String[]
+  keywords     String[]
+  instructions String
+  image_uri    String?
+  user_id      Int
+  user         User     @relation(fields: [user_id], references: [id])
 }

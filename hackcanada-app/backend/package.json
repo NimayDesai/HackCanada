@@ -18,6 +18,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
+    "framer-motion": "^12.4.7",
     "graphql": "^16.10.0",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.24.1",

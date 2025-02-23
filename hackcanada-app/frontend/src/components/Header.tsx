@@ -24,9 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { ModeToggle } from "@/components/darkmode-toggle";
-import { useTheme } from "next-themes";
-import darkIcon from "@/components/darkIcon.svg";
-import lightIcon from "@/components/lightIcon.svg";
+import icon from "@/components/icon.svg";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -34,9 +32,6 @@ interface HeaderProps {
 
 export default function Header({ onMenuClick }: HeaderProps) {
   const deviceType = useDeviceType();
-  const { theme } = useTheme();
-
-  const icon = theme === "light" ? lightIcon : darkIcon;
 
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 fixed top-0 w-full z-50 shadow-md">

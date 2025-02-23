@@ -4,13 +4,14 @@ import { ApolloServer } from "@apollo/server";
 import express from "express";
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
-import { UserResolver } from "./resolvers";
+import { UserResolver, RecipeResolver } from "./resolvers";
 import { buildSchema } from "type-graphql";
 import { PrismaClient } from "@prisma/client";
 import session from "express-session";
 import { RedisStore } from "connect-redis";
 import Redis from "ioredis";
 import { __prod__ } from "./constants";
+import { generate } from "./rag";
 
 const prisma = new PrismaClient({
   log: !__prod__ ? ["query", "error", "info", "warn"] : [],
@@ -34,8 +35,9 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
         httpOnly: true,
-        secure: __prod__,
+        secure: false,
         sameSite: "lax",
+        domain: __prod__ ? ".hackcanada.app" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET || "default_secret",
@@ -45,7 +47,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [UserResolver, RecipeResolver],
       validate: false,
     }),
   });
@@ -55,8 +57,8 @@ const main = async () => {
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({
-      credentials: true,
       origin: "http://localhost:3000",
+      credentials: true,
     }),
     express.json(),
     expressMiddleware(apolloServer, {
